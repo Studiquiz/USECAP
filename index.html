@@ -1,0 +1,105 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Uni Quiz Einstieg</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container" role="main">
+    <h1>Willkommen zum Uni Quiz</h1>
+    <p class="hinweis">Hinweis: Bitte verwende keinen privaten / Inkognito-Modus, da deine Daten sonst nicht gespeichert werden können.</p>
+
+    <form id="quizForm">
+      <label for="kuerzel">Bitte gib dein Pseudonym ein:</label>
+      <input type="text" id="kuerzel" name="kuerzel" placeholder="z.B. AB12" required autocomplete="off" />
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="agbCheck" />
+        <label for="agbCheck">
+          Ich habe die <a href="#" id="openAGB">AGB gelesen</a>
+        </label>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="datenschutzCheck" />
+        <label for="datenschutzCheck">
+          Ich habe die <a href="#" id="openDatenschutz">Datenschutzerklärung gelesen</a>
+        </label>
+      </div>
+
+      <button type="submit" id="startBtn" disabled>Zum Quiz</button>
+    </form>
+  </main>
+
+  <!-- AGB Modal -->
+  <div id="agbModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="agbTitle">
+    <div class="modal-content scrollable">
+      <button id="closeAGBModal" class="close" aria-label="AGB schließen">&times;</button>
+      <h2 id="agbTitle">📜 Allgemeine Geschäftsbedingungen (AGB)</h2>
+      <!-- Unveränderter Text -->
+      <div class="modal-text">
+      <p><strong>1. Geltungsbereich</strong></p>
+      <p>Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für die Nutzung des Online-Quiz „Uni Quiz“, bereitgestellt zu Studien- und Forschungszwecken. Die Teilnahme ist freiwillig. Die Nutzung erfolgt ausschließlich auf Grundlage dieser AGB.</p>
+      <p><strong>2. Teilnahmebedingungen</strong></p>
+      <p>Teilnehmen dürfen alle Personen, die das Quiz aufrufen und das Pseudonymfeld ausfüllen. Es besteht keine Verpflichtung zur Angabe personenbezogener Daten. Die Angabe eines frei gewählten Pseudonyms ist erforderlich, um die Datenspeicherung zu ermöglichen, wobei dieses Pseudonym nicht mit den tatsächlichen Identitäten der Teilnehmenden verknüpft wird.</p>
+      <p><strong>3. Zweck des Quiz</strong></p>
+      <p>Das Quiz dient der Erhebung anonymisierter Nutzungs- und Antwortdaten für wissenschaftliche Zwecke. Es werden keine individuellen Bewertungen erstellt, keine personenbezogenen Rückschlüsse gezogen und keine kommerziellen Absichten verfolgt.</p>
+      <p><strong>4. Freiwillige Datenübermittlung</strong></p>
+      <p>Am Ende des Quiz besteht die Möglichkeit, eine CSV-Datei mit den eigenen Antworten und begleitenden Daten herunterzuladen. Die Weitergabe oder der Upload dieser Datei (z. B. auf eCampus oder andere Plattformen) ist freiwillig. Eine Übermittlung ist nur dann erforderlich, wenn die Teilnehmenden ausdrücklich mit der Auswertung ihrer Daten einverstanden sind. Ohne diese Übermittlung werden keine Daten vom Server verarbeitet oder gespeichert.</p>
+      <p><strong>5. Datennutzung und Anonymisierung</strong></p>
+      <p>Die erfassten Daten – einschließlich Quizantworten, Verweildauer auf Seiten, Klickverhalten, Modalöffnungen und Navigationsverläufen – werden ausschließlich anonymisiert gespeichert und analysiert. Vor der Auswertung wird das Pseudonym vollständig entfernt und somit eine nachträgliche Identifikation technisch verhindert.</p>
+      <p><strong>6. Haftungsausschluss</strong></p>
+      <p>Für technische Störungen, Datenverluste oder fehlerhafte Darstellungen übernimmt der Anbieter keine Haftung. Die Teilnahme erfolgt auf eigenes Risiko.</p>
+      <p><strong>7. Änderung der AGB</strong></p>
+      <p>Diese AGB können jederzeit angepasst werden. Die jeweils aktuelle Version ist beim Einstieg in das Quiz einsehbar. Mit der Nutzung des Quiz erklärt sich die teilnehmende Person mit der jeweils gültigen Version einverstanden.</p>
+      <p><strong>8. Kontakt</strong></p>
+      <p>Für Rückfragen oder Anliegen zur Teilnahme und Datennutzung kann über die im Impressum angegebene Adresse Kontakt aufgenommen werden.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Datenschutz Modal -->
+  <div id="datenschutzModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="dsTitle">
+    <div class="modal-content scrollable">
+      <button id="closeModal" class="close" aria-label="Datenschutz schließen">&times;</button>
+      <h2 id="dsTitle">🔐 Datenschutzerklärung</h2>
+      <!-- Unveränderter Text -->
+      <div class="modal-text">
+      <p><strong>1. Verantwortlicher Anbieter</strong></p>
+      <p>Der verantwortliche Anbieter für dieses Quiz erhebt und verarbeitet keine personenbezogenen Daten im datenschutzrechtlichen Sinne. Das Quiz läuft vollständig lokal im Browser der Nutzerin oder des Nutzers, ohne aktive Datenübermittlung an einen Server.</p>
+      <p><strong>2. Arten der erhobenen Daten</strong></p>
+      <p>Im Rahmen der Teilnahme werden folgende Daten lokal im Browser verarbeitet und nur auf ausdrücklichen Wunsch exportiert:</p>
+      <ul>
+        <li>Antworten auf die gestellten Quizfragen</li>
+        <li>Zeitpunkte der Zustimmung zu AGB und Datenschutzerklärung</li>
+        <li>Verweildauer auf den Modal-Fenstern für AGB und Datenschutz</li>
+        <li>Dauer zur Beantwortung einzelner Fragen</li>
+        <li>Navigationsverhalten im Quiz (z. B. Klicks auf „Weiter“ und „Zurück“)</li>
+        <li>Freitextantworten (z. B. Betriebssystem)</li>
+        <li>Ein frei wählbares Pseudonym</li>
+      </ul>
+      <p><strong>3. Zweck der Verarbeitung</strong></p>
+      <p>Die Verarbeitung erfolgt ausschließlich zur Durchführung einer anonymisierten Auswertung wissenschaftlicher Fragestellungen. Ziel ist es, technisches Nutzungsverhalten, Zustimmungsmuster, sowie Antworttrends zu verstehen. Das Pseudonym dient lediglich als Session-Bezeichner und wird vor jeglicher Auswertung vollständig entfernt, sodass keine Rückschlüsse auf einzelne Teilnehmende möglich sind.</p>
+      <p><strong>4. Kein Tracking, kein Server-Logging</strong></p>
+      <p>Es findet kein Tracking über Dritte (z. B. Google Analytics) statt. Die gesamte Logik läuft clientseitig (im Browser). Es werden keine IP-Adressen, Gerätekennungen oder sonstige Metadaten gespeichert oder übermittelt.</p>
+      <p><strong>5. Optionale Datenweitergabe durch CSV-Export</strong></p>
+      <p>Nach Abschluss des Quiz kann eine CSV-Datei mit den erhobenen Daten heruntergeladen werden. Diese Datei wird nicht automatisch übermittelt. Nur wenn die Teilnehmerin oder der Teilnehmer diese Datei aktiv auf eCampus oder eine andere Plattform hochlädt, erfolgt eine Datenweitergabe.</p>
+      <p>Mit dem freiwilligen Upload wird die Einwilligung zur anonymisierten Auswertung erteilt. Ohne Upload bleiben alle Daten ausschließlich lokal.</p>
+      <p><strong>6. Keine Weitergabe an Dritte</strong></p>
+      <p>Die gespeicherten oder hochgeladenen Daten werden ausschließlich im Rahmen wissenschaftlicher Auswertung durch das zuständige Forschungsteam verwendet. Eine Weitergabe an Dritte oder eine kommerzielle Nutzung erfolgt nicht.</p>
+      <p><strong>7. Rechtsgrundlage</strong></p>
+      <p>Die Verarbeitung basiert auf der freiwilligen und informierten Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO. Da keine personenbezogenen Daten erhoben oder gespeichert werden, ist eine weitere Rechtsgrundlage nicht erforderlich.</p>
+      <p><strong>8. Widerruf und Kontrolle</strong></p>
+      <p>Da keine zentrale Speicherung erfolgt, kann ein Widerruf der Einwilligung jederzeit durch Löschung der lokalen Daten im Browser (z. B. im lokalen Speicher) erfolgen. Nach einem Upload kann die Auswertung nicht mehr rückgängig gemacht werden, da die Daten anonymisiert und nicht mehr einem Pseudonym zugeordnet sind.</p>
+      <p><strong>9. Kontakt bei Fragen</strong></p>
+      <p>Fragen zur Erhebung, Verarbeitung oder zum Datenschutz können an die im Impressum angegebene Kontaktadresse gestellt werden.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
