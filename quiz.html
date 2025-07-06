@@ -1,0 +1,226 @@
+<!-- quiz.html -->
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Uni Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <div id="frageContainer"></div>
+
+    <div class="navigation">
+      <button id="zurueck">Zurück</button>
+      <button id="weiter">Weiter</button>
+      <button id="abschliessen" class="hidden">Abschließen</button>
+    </div>
+
+    <div id="dankeContainer" class="hidden">
+      <h2>Danke für deine Teilnahme!</h2>
+      <p>Bitte lade nun die CSV-Datei herunter und lade sie auf eCampus hoch.</p>
+      <button id="csvDownloadBtn">CSV herunterladen</button>
+    </div>
+  </div>
+
+  <script>
+    const fragen = [
+      {
+        frage: "Welches Betriebssystem nutzt du hauptsächlich?",
+        antworten: null,
+        mehrfach: false,
+        typ: "text"
+      },
+      {
+        frage: "Wie würdest du deine technische Affinität einschätzen?",
+        antworten: ["Sehr hoch — ich programmiere regelmäßig und kenne mich gut mit Systemen aus", "Hoch — ich habe grundlegende Kenntnisse und Interesse an Technik", "Mittel — ich nutze Technik, aber ohne tiefere Kenntnisse", "Gering — ich nutze Technik nur bei Bedarf"],
+        mehrfach: false
+      },
+      {
+        frage: "Welche Programmiersprachen hast du bereits verwendet? (Mehrfachauswahl möglich)",
+        antworten: ["Python", "Java", "C/C++", "JavaScript", "Keine davon"],
+        mehrfach: true
+      },
+      {
+        frage: "Welche dieser Tools oder Umgebungen sind dir bekannt?",
+        antworten: ["Git / GitHub", "Docker", "Visual Studio Code", "Linux-Terminal (z.B. Bash)"],
+        mehrfach: true
+      },
+      {
+        frage: "Hast du schon einmal ein eigenes Softwareprojekt umgesetzt (z.B. App, Website, Script)?",
+        antworten: ["Ja, mehrere Male", "Ja, einmal", "Nur im Rahmen von Lehrveranstaltungen", "Nein, noch nicht"],
+        mehrfach: false
+      },
+      {
+        frage: "Wie häufig arbeitest du mit der Kommandozeile / dem Terminal?",
+        antworten: ["Täglich", "Wöchentlich", "Selten", "Nie"],
+        mehrfach: false
+      },
+      {
+        frage: "Was ist dir bei einem technischen Tool oder Interface am wichtigsten?",
+        antworten: ["Intuitive Bedienung", "Funktionsumfang", "Performance", "Design / Ästhetik"],
+        mehrfach: false
+      },
+      {
+        frage: "Wie gut kennst du dich mit Netzwerktechnologien (z. B. IP, DNS, HTTP) aus?",
+        antworten: ["Sehr gut — ich verstehe Konzepte und kann sie anwenden", "Grundlegend — ich kenne die Begriffe und habe sie gehört", "Kaum — ich habe wenig bis keine Kenntnisse"],
+        mehrfach: false
+      },
+      {
+        frage: "Hast du schon einmal eine Datenbank genutzt oder aufgebaut?",
+        antworten: ["Ja, selbstständig in Projekten", "Ja, im Rahmen von Kursen", "Nein, noch nicht"],
+        mehrfach: false
+      },
+      {
+        frage: "Kennst du grundlegende Konzepte der Softwareentwicklung (z. B. Versionskontrolle, Testen, Architektur)?",
+        antworten: ["Ja, sehr gut", "Teilweise", "Kaum oder gar nicht"],
+        mehrfach: false
+      },
+      {
+        frage: "Wie häufig liest du technische Dokumentation oder Tutorials?",
+        antworten: ["Regelmäßig — ich informiere mich oft über neue Tools und Frameworks", "Gelegentlich — nur bei konkreten Problemen", "Selten — ich versuche es meist ohne Hilfe"],
+        mehrfach: false
+      },
+      {
+        frage: "Wie informierst du dich über technologische Entwicklungen?",
+        antworten: ["Fachseiten, YouTube, Foren", "Austausch mit Kommilitonen / Lehrveranstaltungen", "Ich informiere mich selten darüber"],
+        mehrfach: false
+      }
+    ];
+
+    let aktuelleFrage = 0;
+    const frageContainer = document.getElementById("frageContainer");
+    const zurueck = document.getElementById("zurueck");
+    const weiter = document.getElementById("weiter");
+    const abschliessen = document.getElementById("abschliessen");
+    const dankeContainer = document.getElementById("dankeContainer");
+
+    let daten = JSON.parse(localStorage.getItem("uniQuizDaten"));
+    if (!daten.quizAntworten) daten.quizAntworten = [];
+
+function zeigeFrage() {
+  const f = fragen[aktuelleFrage];
+
+  if (aktuelleFrage === 0) {
+    frageContainer.innerHTML = 
+      <p><strong>${f.frage}</strong></p>
+      <p>Frage 1 von ${fragen.length}</p>
+      <input type="text" id="freitextAntwort" maxlength="30" placeholder="Antwort eingeben..." style="width: 100%; padding: 0.5em;" />
+    ;
+
+    const vorherigeAntwort = daten.quizAntworten[0];
+    if (vorherigeAntwort) {
+      document.getElementById("freitextAntwort").value = vorherigeAntwort;
+    }
+  } else {
+    frageContainer.innerHTML = 
+      <p><strong>${f.frage}</strong></p>
+      <p>Frage ${aktuelleFrage + 1} von ${fragen.length}</p>
+       +
+      f.antworten.map((antwort, i) => 
+        <div><input type="${f.mehrfach ? 'checkbox' : 'radio'}" name="antwort" id="a${i}" value="${antwort}">
+        <label for="a${i}">${antwort}</label></div>
+      ).join('');
+
+    const vorherigeAntwort = daten.quizAntworten[aktuelleFrage];
+    if (vorherigeAntwort) {
+      if (Array.isArray(vorherigeAntwort)) {
+        vorherigeAntwort.forEach(a => {
+          const input = document.querySelector(input[value='${a}']);
+          if (input) input.checked = true;
+        });
+      } else {
+        const input = document.querySelector(input[value='${vorherigeAntwort}']);
+        if (input) input.checked = true;
+      }
+    }
+  }
+
+  zurueck.disabled = aktuelleFrage === 0;
+  weiter.classList.toggle("hidden", aktuelleFrage === fragen.length - 1);
+  abschliessen.classList.toggle("hidden", aktuelleFrage !== fragen.length - 1);
+}
+
+function speichereAntwort() {
+  const f = fragen[aktuelleFrage];
+  let antwort;
+
+  if (aktuelleFrage === 0) {
+    antwort = document.getElementById("freitextAntwort").value.trim();
+  } else if (f.mehrfach) {
+    antwort = Array.from(document.querySelectorAll("input[name='antwort']:checked")).map(i => i.value);
+  } else {
+    const selected = document.querySelector("input[name='antwort']:checked");
+    antwort = selected ? selected.value : null;
+  }
+
+  daten.quizAntworten[aktuelleFrage] = antwort;
+  localStorage.setItem("uniQuizDaten", JSON.stringify(daten));
+}
+    zurueck.addEventListener("click", () => {
+      speichereAntwort();
+      if (aktuelleFrage > 0) {
+        aktuelleFrage--;
+        zeigeFrage();
+      }
+    });
+
+    weiter.addEventListener("click", () => {
+      speichereAntwort();
+      if (aktuelleFrage < fragen.length - 1) {
+        aktuelleFrage++;
+        zeigeFrage();
+      }
+    });
+
+    abschliessen.addEventListener("click", () => {
+      speichereAntwort(); // Letzte Antwort sichern
+      frageContainer.classList.add("hidden");
+      document.querySelector(".navigation").classList.add("hidden");
+      dankeContainer.classList.remove("hidden");
+    });
+
+    document.getElementById("csvDownloadBtn").addEventListener("click", () => {
+      const quizData = JSON.parse(localStorage.getItem("uniQuizDaten")) || {};
+      const antworten = quizData.quizAntworten || [];
+
+      const csvHeaders = [
+        "Pseudonym",
+        "A_R",
+        "A_V(s)",
+        "A_C",
+        "D_R",
+        "D_V(s)",
+        "D_C",
+        ...antworten.map((_, i) => Frage ${i + 1})
+      ];
+
+      const csvRow = [
+        quizData.pseudonym || "",
+        quizData.agbGelesen || false,
+        quizData.agbVerweildauer || 0,
+        quizData.agbAkzeptiertAm || "",
+        quizData.datenschutzGelesen || false,
+        quizData.datenschutzVerweildauer || 0,
+        quizData.datenschutzAkzeptiertAm || "",
+        ...antworten.map(a => Array.isArray(a) ? a.join(" | ") : a)
+      ];
+
+      const csvContent = [csvHeaders.join(","), csvRow.join(",")].join("\n");
+
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", quiz_ergebnis_${quizData.pseudonym || "user"}.csv);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+    // Start: erste Frage anzeigen
+    document.addEventListener("DOMContentLoaded", zeigeFrage);
+  </script>
+</body>
+</html>
