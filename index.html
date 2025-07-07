@@ -6,6 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Uni Quiz Einstieg</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .hinweis-fehler {
+      color: red;
+      font-size: 0.9em;
+      display: none;
+    }
+  </style>
 </head>
 <body>
   <main class="container" role="main">
@@ -15,6 +22,7 @@
     <form id="quizForm">
       <label for="kuerzel">Bitte gib dein Pseudonym ein:</label>
       <input type="text" id="kuerzel" name="kuerzel" placeholder="z.B. AB12" required autocomplete="off" />
+      <p id="kuerzelFehler" class="hinweis-fehler">Nur Buchstaben und Zahlen erlaubt (keine Sonderzeichen oder Leerzeichen).</p>
 
       <div class="checkbox-group">
         <input type="checkbox" id="agbCheck" />
@@ -38,7 +46,7 @@
   <div id="agbModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="agbTitle">
     <div class="modal-content scrollable">
       <button id="closeAGBModal" class="close" aria-label="AGB schließen">&times;</button>
-      <h2 id="agbTitle">📜 Allgemeine Geschäftsbedingungen (AGB)</h2>
+      <h2 id="agbTitle">Allgemeine Geschäftsbedingungen (AGB)</h2>
       <!-- Unveränderter Text -->
       <div class="modal-text">
       <p><strong>1. Geltungsbereich</strong></p>
@@ -56,7 +64,7 @@
       <p><strong>7. Änderung der AGB</strong></p>
       <p>Diese AGB können jederzeit angepasst werden. Die jeweils aktuelle Version ist beim Einstieg in das Quiz einsehbar. Mit der Nutzung des Quiz erklärt sich die teilnehmende Person mit der jeweils gültigen Version einverstanden.</p>
       <p><strong>8. Kontakt</strong></p>
-      <p>Für Rückfragen oder Anliegen zur Teilnahme und Datennutzung kann über die im Impressum angegebene Adresse Kontakt aufgenommen werden.</p>
+      <p>Für Rückfragen oder Anliegen zur Teilnahme und Datennutzung kann über die Email xyz Kontakt aufgenommen werden.</p>
       </div>
     </div>
   </div>
@@ -65,7 +73,7 @@
   <div id="datenschutzModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="dsTitle">
     <div class="modal-content scrollable">
       <button id="closeDatenschutzModal" class="close" aria-label="Datenschutz schließen">&times;</button>
-      <h2 id="dsTitle">🔐 Datenschutzerklärung</h2>
+      <h2 id="dsTitle">Datenschutzerklärung</h2>
       <!-- Unveränderter Text -->
       <div class="modal-text">
       <p><strong>1. Verantwortlicher Anbieter</strong></p>
@@ -78,7 +86,7 @@
         <li>Verweildauer auf den Modal-Fenstern für AGB und Datenschutz</li>
         <li>Dauer zur Beantwortung einzelner Fragen</li>
         <li>Navigationsverhalten im Quiz (z. B. Klicks auf „Weiter“ und „Zurück“)</li>
-        <li>Freitextantworten (z. B. Betriebssystem)</li>
+        <li>Freitextantworten </li>
         <li>Ein frei wählbares Pseudonym</li>
       </ul>
       <p><strong>3. Zweck der Verarbeitung</strong></p>
@@ -87,7 +95,7 @@
       <p>Es findet kein Tracking über Dritte (z. B. Google Analytics) statt. Die gesamte Logik läuft clientseitig (im Browser). Es werden keine IP-Adressen, Gerätekennungen oder sonstige Metadaten gespeichert oder übermittelt.</p>
       <p><strong>5. Optionale Datenweitergabe durch CSV-Export</strong></p>
       <p>Nach Abschluss des Quiz kann eine CSV-Datei mit den erhobenen Daten heruntergeladen werden. Diese Datei wird nicht automatisch übermittelt. Nur wenn die Teilnehmerin oder der Teilnehmer diese Datei aktiv auf eCampus oder eine andere Plattform hochlädt, erfolgt eine Datenweitergabe.</p>
-      <p>Mit dem freiwilligen Upload wird die Einwilligung zur anonymisierten Auswertung erteilt. Ohne Upload bleiben alle Daten ausschließlich lokal.</p>
+      <p>Mit dem freiwilligen Upload wird die Einwilligung zur anonymisierten Auswertung erteilt. Ohne Upload bleiben alle Daten ausschließlich lokal. (Wenn dir das bewusst ist, gib bitte bei der ersten Frage das Wort Eis ein)</p>
       <p><strong>6. Keine Weitergabe an Dritte</strong></p>
       <p>Die gespeicherten oder hochgeladenen Daten werden ausschließlich im Rahmen wissenschaftlicher Auswertung durch das zuständige Forschungsteam verwendet. Eine Weitergabe an Dritte oder eine kommerzielle Nutzung erfolgt nicht.</p>
       <p><strong>7. Rechtsgrundlage</strong></p>
@@ -95,7 +103,7 @@
       <p><strong>8. Widerruf und Kontrolle</strong></p>
       <p>Da keine zentrale Speicherung erfolgt, kann ein Widerruf der Einwilligung jederzeit durch Löschung der lokalen Daten im Browser (z. B. im lokalen Speicher) erfolgen. Nach einem Upload kann die Auswertung nicht mehr rückgängig gemacht werden, da die Daten anonymisiert und nicht mehr einem Pseudonym zugeordnet sind.</p>
       <p><strong>9. Kontakt bei Fragen</strong></p>
-      <p>Fragen zur Erhebung, Verarbeitung oder zum Datenschutz können an die im Impressum angegebene Kontaktadresse gestellt werden.</p>
+      <p>Fragen zur Erhebung, Verarbeitung oder zum Datenschutz können an die folgende E-mail gesendet werden: xyz .</p>
       </div>
     </div>
   </div>
