@@ -19,7 +19,7 @@
 
     <div id="dankeContainer" class="hidden">
       <h2>Danke für deine Teilnahme!</h2>
-      <p>Dieses "Quiz" diente lediglich der Erhebung deines Verhaltens im Umgang mit der Datenschutzerklärung und den AGBs – nicht der inhaltlichen Antworten.<br><br>
+      <p>Dieses "Quiz" diente lediglich der Erhebung deines Verhaltens im Umgang mit der Datenschutzerklärung und den AGBs, nicht der inhaltlichen Antworten.<br><br>
       Die Teilnahme ist freiwillig. Du kannst jederzeit ohne Angabe von Gründen zurücktreten und musst die CSV-Datei nicht hochladen. </p>
       <button id="csvDownloadBtn">CSV herunterladen</button>
     </div>
@@ -98,6 +98,7 @@
     const dankeContainer = document.getElementById("dankeContainer");
 
     let daten = JSON.parse(localStorage.getItem("uniQuizDaten")) || {};
+    const pseudonym = daten.kuerzel || "Kein Pseudonym gefunden";
     if (!daten.quizAntworten) daten.quizAntworten = [];
 
 function zeigeFrage() {
@@ -166,62 +167,3 @@ function speichereAntwort() {
         zeigeFrage();
       }
     });
-
-    weiter.addEventListener("click", () => {
-      speichereAntwort();
-      if (aktuelleFrage < fragen.length - 1) {
-        aktuelleFrage++;
-        zeigeFrage();
-      }
-    });
-
-    abschliessen.addEventListener("click", () => {
-      speichereAntwort(); // Letzte Antwort sichern
-      frageContainer.classList.add("hidden");
-      document.querySelector(".navigation").classList.add("hidden");
-      dankeContainer.classList.remove("hidden");
-    });
-
-    document.getElementById("csvDownloadBtn").addEventListener("click", () => {
-      const quizData = JSON.parse(localStorage.getItem("uniQuizDaten")) || {};
-      const antworten = quizData.quizAntworten || [];
-
-      const csvHeaders = [
-        "Pseudonym",
-        "A_R",
-        "A_V(s))",
-        "A_C",
-        "D_R",
-        "D_V(s)",
-        "D_C",
-        ...antworten.map((_, i) => `Frage ${i + 1}`)
-      ];
-
-      const csvRow = [
-        quizData.pseudonym || "",
-        quizData.agbGelesen || false,
-        quizData.agbVerweildauer || 0,
-        quizData.agbAkzeptiertAm || "",
-        quizData.datenschutzGelesen || false,
-        quizData.datenschutzVerweildauer || 0,
-        quizData.datenschutzAkzeptiertAm || "",
-        ...antworten.map(a => Array.isArray(a) ? a.join(" | ") : a)
-      ];
-
-      const csvContent = [csvHeaders.join(","), csvRow.join(",")].join("\n");
-
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.setAttribute("href", url);
-      link.setAttribute("download", `quiz_ergebnis_${quizData.pseudonym || "user"}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    });
-
-    // Start: erste Frage anzeigen
-    document.addEventListener("DOMContentLoaded", zeigeFrage);
-  </script>
-</body>
-</html>
