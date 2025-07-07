@@ -1,86 +1,73 @@
-//script.js
-// Zeitmesser für Verweildauer
-let datenschutzStart = 0;
-let agbStart = 0;
+/*script.js*/
+document.addEventListener("DOMContentLoaded", () => {
+  let agbModalStart = 0;
+  let datenschutzModalStart = 0;
 
-// Elementreferenzen
-const datenschutzCheckbox = document.getElementById("datenschutzCheck");
-const agbCheckbox = document.getElementById("agbCheck");
-const startBtn = document.getElementById("startBtn");
-const pseudonymInput = document.getElementById("pseudonym");
+  // Checkboxen & Button
+  const datenschutzCheckbox = document.getElementById("datenschutzCheck");
+  const agbCheckbox = document.getElementById("agbCheck");
+  const startBtn = document.getElementById("startBtn");
 
-const openDatenschutzLink = document.getElementById("openDatenschutz");
-const datenschutzModal = document.getElementById("datenschutzModal");
-const closeDatenschutzModal = document.getElementById("closeModal");
+  // Links & Modals
+  const openDatenschutzLink = document.getElementById("openDatenschutz");
+  const datenschutzModal = document.getElementById("datenschutzModal");
+  const closeDatenschutzModal = document.getElementById("closeDatenschutzModal");
 
-const openAGBLink = document.getElementById("openAGB");
-const agbModal = document.getElementById("agbModal");
-const closeAGBModal = document.getElementById("closeAGBModal");
+  const openAGBLink = document.getElementById("openAGB");
+  const agbModal = document.getElementById("agbModal");
+  const closeAGBModal = document.getElementById("closeAGBModal");
 
-// Startbutton nur aktivieren, wenn AGB, Datenschutz & Pseudonym erfüllt sind
-function updateStartButtonState() {
-  const pseudonym = pseudonymInput.value.trim();
-  startBtn.disabled = !(datenschutzCheckbox.checked && agbCheckbox.checked && pseudonym.length > 0);
-}
-
-// Eventlistener für Checkboxen und Pseudonym
-datenschutzCheckbox.addEventListener("change", updateStartButtonState);
-agbCheckbox.addEventListener("change", updateStartButtonState);
-pseudonymInput.addEventListener("input", updateStartButtonState);
-
-// Datenschutz Modal öffnen
-openDatenschutzLink.addEventListener("click", (e) => {
-  e.preventDefault();
-  datenschutzModal.classList.remove("hidden");
-  datenschutzStart = Date.now();
-});
-
-// Datenschutz Modal schließen + Zeit speichern
-closeDatenschutzModal.addEventListener("click", () => {
-  datenschutzModal.classList.add("hidden");
-  const timeSpent = ((Date.now() - datenschutzStart) / 1000).toFixed(2);
-  console.log("Datenschutzerklärung geöffnet für:", timeSpent, "Sekunden");
-
-  let daten = JSON.parse(localStorage.getItem("uniQuizDaten")) || {};
-  daten.datenschutzVerweildauer = parseFloat(timeSpent);
-  daten.datenschutzGelesen = true;
-  localStorage.setItem("uniQuizDaten", JSON.stringify(daten));
-});
-
-// AGB Modal öffnen
-openAGBLink.addEventListener("click", (e) => {
-  e.preventDefault();
-  agbModal.classList.remove("hidden");
-  agbStart = Date.now();
-});
-
-// AGB Modal schließen + Zeit speichern
-closeAGBModal.addEventListener("click", () => {
-  agbModal.classList.add("hidden");
-  const timeSpent = ((Date.now() - agbStart) / 1000).toFixed(2);
-  console.log("AGB geöffnet für:", timeSpent, "Sekunden");
-
-  let daten = JSON.parse(localStorage.getItem("uniQuizDaten")) || {};
-  daten.agbVerweildauer = parseFloat(timeSpent);
-  daten.agbGelesen = true;
-  localStorage.setItem("uniQuizDaten", JSON.stringify(daten));
-});
-
-// Quiz starten
-startBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  const pseudonym = pseudonymInput.value.trim();
-
-  if (!pseudonym) {
-    alert("Bitte gib ein Pseudonym ein.");
-    return;
+  // Button aktivieren, wenn beide Checkboxen gesetzt sind
+  function updateStartButtonState() {
+    startBtn.disabled = !(datenschutzCheckbox.checked && agbCheckbox.checked);
   }
 
-  let daten = JSON.parse(localStorage.getItem("uniQuizDaten")) || {};
-  daten.pseudonym = pseudonym;
-  daten.agbAkzeptiertAm = new Date().toISOString();
+  datenschutzCheckbox.addEventListener("change", updateStartButtonState);
+  agbCheckbox.addEventListener("change", updateStartButtonState);
+
+  // Datenschutz Modal öffnen
+  openDatenschutzLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    datenschutzModal.classList.remove("hidden");
+    datenschutzModalStart = Date.now();
+  });
+
+  // Datenschutz Modal schließen
+closeDatenschutzModal.addEventListener("click", () => {
+  datenschutzModal.classList.add("hidden");
+  const timeSpent = ((Date.now() - datenschutzModalStart) / 1000).toFixed(2);
+  console.log("Datenschutzerklärung geöffnet für:", timeSpent, "Sekunden");
+
+  const daten = JSON.parse(localStorage.getItem("uniQuizDaten")) || {};
+  daten.datenschutzGelesen = true;
+  daten.datenschutzVerweildauer = parseFloat(timeSpent);
   daten.datenschutzAkzeptiertAm = new Date().toISOString();
   localStorage.setItem("uniQuizDaten", JSON.stringify(daten));
+});
+  
+  // AGB Modal öffnen
+  openAGBLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    agbModal.classList.remove("hidden");
+    agbModalStart = Date.now();
+  });
 
-  window.location.href = "quiz.html";
+  // AGB Modal schließen
+closeAGBModal.addEventListener("click", () => {
+  agbModal.classList.add("hidden");
+  const timeSpent = ((Date.now() - agbModalStart) / 1000).toFixed(2);
+  console.log("AGB geöffnet für:", timeSpent, "Sekunden");
+
+  const daten = JSON.parse(localStorage.getItem("uniQuizDaten")) || {};
+  daten.agbGelesen = true;
+  daten.agbVerweildauer = parseFloat(timeSpent);
+  daten.agbAkzeptiertAm = new Date().toISOString();
+  localStorage.setItem("uniQuizDaten", JSON.stringify(daten));
+});
+  
+  // Quiz starten
+  startBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.location.href = "quiz.html";
+  });
 });
