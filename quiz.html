@@ -97,7 +97,7 @@
     const abschliessen = document.getElementById("abschliessen");
     const dankeContainer = document.getElementById("dankeContainer");
 
-    let daten = JSON.parse(localStorage.getItem("uniQuizDaten"));
+    let daten = JSON.parse(localStorage.getItem("uniQuizDaten")) || {};
     if (!daten.quizAntworten) daten.quizAntworten = [];
 
 function zeigeFrage() {
