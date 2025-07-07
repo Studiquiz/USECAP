@@ -66,8 +66,31 @@ closeAGBModal.addEventListener("click", () => {
 });
   
   // Quiz starten
-  startBtn.addEventListener("click", (e) => {
-    e.preventDefault();
+  // Pseudonym validieren und speichern bei Formular-Abschicken
+  const quizForm = document.getElementById("quizForm");
+  const kuerzelInput = document.getElementById("kuerzel");
+  const kuerzelFehler = document.getElementById("kuerzelFehler");
+
+  quizForm.addEventListener("submit", (e) => {
+    e.preventDefault(); // verhindert das automatische Abschicken
+
+    const kuerzel = kuerzelInput.value.trim();
+
+    // Nur Buchstaben und Zahlen erlaubt (keine Sonderzeichen, keine Leerzeichen)
+    const regex = /^[A-Za-z0-9]+$/;
+    if (!regex.test(kuerzel)) {
+      kuerzelFehler.style.display = "block";
+      return;
+    }
+
+    kuerzelFehler.style.display = "none";
+
+    const daten = JSON.parse(localStorage.getItem("uniQuizDaten")) || {};
+    daten.kuerzel = kuerzel;
+    daten.pseudonymGespeichertAm = new Date().toISOString();
+    localStorage.setItem("uniQuizDaten", JSON.stringify(daten));
+
+    // Weiterleitung zum Quiz
     window.location.href = "quiz.html";
   });
 });
