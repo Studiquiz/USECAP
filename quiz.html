@@ -18,10 +18,51 @@
     </div>
 
     <div id="dankeContainer" class="hidden">
-      <h2>Danke für deine Teilnahme!</h2>
-      <p>Dieses "Quiz" diente lediglich der Erhebung deines Verhaltens im Umgang mit der Datenschutzerklärung und den AGBs, nicht der inhaltlichen Antworten.<br><br>
-      Die Teilnahme ist freiwillig. Du kannst jederzeit ohne Angabe von Gründen zurücktreten und musst die CSV-Datei nicht hochladen. </p>
+      <h2>Vielen Dank für deine Teilnahme!</h2>
+
+      <p>
+        Dieses „Quiz“ diente <strong>nicht der inhaltlichen Beurteilung deiner Antworten</strong>,
+        sondern war Teil einer wissenschaftlichen Untersuchung zum Verhalten im Umgang mit rechtlichen Hinweisen –
+        insbesondere der <strong>Datenschutzerklärung</strong> und den <strong>AGB</strong>.
+      </p>
+
+      <p>Die eigentliche Fragestellung der Studie bezog sich auf:</p>
+      <ul>
+        <li>ob und wie lange die Hinweise gelesen wurden,</li>
+        <li>welche Inhalte beachtet oder übersprungen wurden,</li>
+        <li>und ob das Einverständnis bewusst gegeben wurde.</li>
+      </ul>
+
+      <p>
+        Aus methodischen Gründen wurde diese Zielsetzung zunächst nicht offen kommuniziert.
+        Wir möchten dich daher nun vollständig aufklären.
+      </p>
+
+      <p>
+        Die Teilnahme an dieser Studie ist <strong>freiwillig</strong>.
+        Du kannst auch jetzt noch ohne Angabe von Gründen zurücktreten.
+        In diesem Fall musst du die CSV-Datei <strong>nicht hochladen</strong>.
+      </p>
+
+      <p>Wenn du <strong>nicht möchtest, dass deine Daten ausgewertet werden</strong>, aber trotzdem deine Bonuspunkte erhalten möchtest, dann:</p>
+      <ul>
+        <li>lade die CSV-Datei herunter,</li>
+        <li>ändere in der Datei den Wert bei <code>consent</code> auf <code>false</code>,</li>
+        <li>und lade die Datei dann wie gewohnt hoch.</li>
+      </ul>
+
+      <p>
+        Wenn du <strong>mit der Auswertung einverstanden</strong> bist, kannst du die Datei unverändert hochladen.
+      </p>
+
       <button id="csvDownloadBtn">CSV herunterladen</button>
+
+      <p>
+        Die Datei kannst du auf folgender Seite hochladen:<br>
+        <a href="https://dein-upload-link.uni-bonn.de" target="_blank" rel="noopener">
+          ➜ Zur Upload-Seite (eCampus o. ä.)
+        </a>
+      </p>
     </div>
   </div>
 
@@ -195,7 +236,8 @@ function speichereAntwort() {
         "D_R",
         "D_V(s)",
         "D_C",
-        ...antworten.map((_, i) => `Frage ${i + 1}`)
+        ...antworten.map((_, i) => `Frage ${i + 1}`),
+        "consent"
       ];
 
       const csvRow = [
@@ -206,7 +248,8 @@ function speichereAntwort() {
         quizData.datenschutzGelesen || false,
         quizData.datenschutzVerweildauer || 0,
         quizData.datenschutzAkzeptiertAm || "",
-        ...antworten.map(a => Array.isArray(a) ? a.join(" | ") : a)
+        ...antworten.map(a => Array.isArray(a) ? a.join(" | ") : a),
+        "true" //immer true außer consent wird manuell auf false gesetzt
       ];
 
       const csvContent = [csvHeaders.join(","), csvRow.join(",")].join("\n");
