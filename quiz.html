@@ -271,7 +271,7 @@ function speichereAntwort() {
     });
 
     //CSV Download ohne Einverständnis zur Datenverbeitung
-    document.getElementById("csvDownloadBtnConsentFalse").addEventListener("click", () => {
+    document.getElementById("csvDownloadNoConsentBtn").addEventListener("click", () => {
       const quizData = JSON.parse(localStorage.getItem("uniQuizDaten")) || {};
       const antworten = quizData.quizAntworten || [];
     
