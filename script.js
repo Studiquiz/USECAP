@@ -73,17 +73,8 @@ closeAGBModal.addEventListener("click", () => {
 
   quizForm.addEventListener("submit", (e) => {
     e.preventDefault(); // verhindert das automatische Abschicken
-
     const kuerzel = kuerzelInput.value.trim();
 
-    // Nur Buchstaben und Zahlen erlaubt (keine Sonderzeichen, keine Leerzeichen)
-    const regex = /^[A-Za-z0-9]+$/;
-    if (!regex.test(kuerzel)) {
-      kuerzelFehler.style.display = "block";
-      return;
-    }
-
-    kuerzelFehler.style.display = "none";
 
     const daten = JSON.parse(localStorage.getItem("uniQuizDaten")) || {};
     daten.kuerzel = kuerzel;
