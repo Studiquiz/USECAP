@@ -50,10 +50,6 @@
         <li>ändere in der Datei den Wert bei <code>consent</code> auf <code>false</code>,</li>
         <li>und lade die Datei dann wie gewohnt hoch.</li>
       </ul>
-
-      <p>
-        Sollte dein Pseudonym Sonderzeichen enthalten, öffne die CSV und ändere den Wert deines Pseudonyms vor dem Upload.
-      </p>
       
       <p>
         Wenn du <strong>mit der Auswertung einverstanden</strong> bist, kannst du die Datei nun hochladen. Vielen Dank!
@@ -85,13 +81,13 @@
         mehrfach: false
       },
       {
-        frage: "Welche Programmiersprachen hast du bereits verwendet? (Mehrfachauswahl möglich)",
+        frage: "Welche dieser Programmiersprachen hast du bereits verwendet? (Mehrfachauswahl möglich)",
         antworten: ["Python", "Java", "C/C++", "JavaScript", "Keine davon"],
         mehrfach: true
       },
       {
         frage: "Welche dieser Tools oder Umgebungen sind dir bekannt? (Mehrfachauswahl möglich)",
-        antworten: ["Git / GitHub", "Docker", "Visual Studio Code", "Linux-Terminal (z.B. Bash)"],
+        antworten: ["Git / GitHub", "Docker", "Visual Studio Code", "Linux-Terminal (z.B. Bash)", "Keine davon"],
         mehrfach: true
       },
       {
@@ -106,7 +102,7 @@
       },
       {
         frage: "Was ist dir bei einem technischen Tool oder Interface am wichtigsten?",
-        antworten: ["Intuitive Bedienung", "Funktionsumfang", "Performance", "Design / Ästhetik"],
+        antworten: ["Intuitive Bedienung", "Funktionsumfang", "Performance", "Design / Ästhetik", "Andere Kriterien"],
         mehrfach: false
       },
       {
@@ -116,22 +112,22 @@
       },
       {
         frage: "Hast du schon einmal eine Datenbank genutzt oder aufgebaut?",
-        antworten: ["Ja - selbstständig in Projekten", "Ja - im Rahmen von Kursen", "Nein - noch nicht"],
+        antworten: ["Ja - selbstständig in Projekten", "Ja - im Rahmen von Kursen(z.B. in der Schule/universität)", "Ja - im Rahmen einer beruflichen Tätigkeit", "Nein - noch nicht"],
         mehrfach: false
       },
       {
-        frage: "Kennst du grundlegende Konzepte der Softwareentwicklung (z. B. Versionskontrolle, Testen, Architektur)?",
-        antworten: ["Ja - sehr gut", "Teilweise", "Kaum oder gar nicht"],
+        frage: "Bist du mit traditioneller und agiler Softwareentwicklung bekannt?",
+        antworten: ["Ja - ich habe beide Methoden bereits umgesetzt", "Teilweise - ich habe eine Methode umgesetzt ", "Teilweise - ich habe von einer oder beiden Methoden gehört", "Nein"],
         mehrfach: false
       },
       {
         frage: "Wie häufig liest du technische Dokumentation oder Tutorials?",
-        antworten: ["Regelmäßig — ich informiere mich oft über neue Tools und Frameworks", "Gelegentlich — nur bei konkreten Problemen", "Selten — ich versuche es meist ohne Hilfe"],
+        antworten: ["Regelmäßig — ich informiere mich oft über neue Tools und Frameworks", "Gelegentlich — nur bei konkreten Problemen", "Gar nicht"],
         mehrfach: false
       },
       {
         frage: "Wie informierst du dich über technologische Entwicklungen?",
-        antworten: ["Fachseiten/ YouTube/ Foren", "Austausch mit Kommilitonen / Lehrveranstaltungen", "Ich informiere mich selten darüber"],
+        antworten: ["Fachseiten/ YouTube/ Foren", "Austausch mit Kommilitonen/ Lehrveranstaltungen", "Ich informiere mich selten darüber"],
         mehrfach: false
       }
     ];
