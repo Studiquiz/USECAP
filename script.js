@@ -35,14 +35,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // Datenschutz Modal schließen
 closeDatenschutzModal.addEventListener("click", () => {
   datenschutzModal.classList.add("hidden");
-  const timeSpent = ((Date.now() - datenschutzModalStart) / 1000).toFixed(2);
-  console.log("Datenschutzerklärung geöffnet für:", timeSpent, "Sekunden");
+  
+  if(datenschutzModalStart > 0){
+    const timeSpent = ((Date.now() - datenschutzModalStart) / 1000).toFixed(2);
+    
+    const daten = JSON.parse(localStorage.getItem("uniQuizDaten")) || {};
+    daten.datenschutzGelesen = true;
+    daten.datenschutzVerweildauer = parseFloat(timeSpent);
+    daten.datenschutzAkzeptiertAm = new Date().toISOString();
+    localStorage.setItem("uniQuizDaten", JSON.stringify(daten));
 
-  const daten = JSON.parse(localStorage.getItem("uniQuizDaten")) || {};
-  daten.datenschutzGelesen = true;
-  daten.datenschutzVerweildauer = parseFloat(timeSpent);
-  daten.datenschutzAkzeptiertAm = new Date().toISOString();
-  localStorage.setItem("uniQuizDaten", JSON.stringify(daten));
+    datenschutzModalStart = 0;
+  }
+  
 });
   
   // AGB Modal öffnen
@@ -55,14 +60,19 @@ closeDatenschutzModal.addEventListener("click", () => {
   // AGB Modal schließen
 closeAGBModal.addEventListener("click", () => {
   agbModal.classList.add("hidden");
-  const timeSpent = ((Date.now() - agbModalStart) / 1000).toFixed(2);
-  console.log("AGB geöffnet für:", timeSpent, "Sekunden");
+  
+  if(agbModalStart > 0){
+    const timeSpent = ((Date.now() - agbModalStart) / 1000).toFixed(2);
+  
+    const daten = JSON.parse(localStorage.getItem("uniQuizDaten")) || {};
+    daten.agbGelesen = true;
+    daten.agbVerweildauer = parseFloat(timeSpent);
+    daten.agbAkzeptiertAm = new Date().toISOString();
+    localStorage.setItem("uniQuizDaten", JSON.stringify(daten));
 
-  const daten = JSON.parse(localStorage.getItem("uniQuizDaten")) || {};
-  daten.agbGelesen = true;
-  daten.agbVerweildauer = parseFloat(timeSpent);
-  daten.agbAkzeptiertAm = new Date().toISOString();
-  localStorage.setItem("uniQuizDaten", JSON.stringify(daten));
+    agbModalStart = 0;
+  }
+  
 });
   
   // Quiz starten
