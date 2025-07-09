@@ -264,7 +264,7 @@ function speichereAntwort() {
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       const rawKuerzel = quizData.kuerzel || "user";
-      const safeKuerzel = rawKuerzel.replace(/[^a-zA-Z0-9_-]/g, "_"); // ersetzt Sonderzeichen durch "_"link.setAttribute("href", url);
+      const safeKuerzel = rawKuerzel.replace(/[^a-zA-Z0-9_-]/g, "_"); // ersetzt Sonderzeichen durch _
       link.setAttribute("download", `quiz_ergebnis_${safeKuerzel}.csv`);
       document.body.appendChild(link);
       link.click();
