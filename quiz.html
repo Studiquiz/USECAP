@@ -45,7 +45,7 @@
       </p>
       
       <p>
-        Wenn du <strong>mit der Auswertung einverstanden</strong> bist, kannst du die Datei nun hochladen. Vielen Dank!
+        Wenn du <strong>mit der Auswertung einverstanden</strong> bist, kannst du die Datei nun hier herunterladen. Vielen Dank!
       </p>
 
       <button id="csvDownloadBtn">CSV herunterladen</button>
@@ -59,10 +59,12 @@
       
       <p>Wenn du <strong>nicht möchtest, dass deine Daten ausgewertet werden</strong>, aber trotzdem deine Bonuspunkte erhalten möchtest, dann:</p>
       <ul>
-        <li>lade die CSV-Datei herunter,</li>
-        <li>ändere in der Datei den Wert bei <code>consent</code> auf <code>false</code>,</li>
+        <li>lade die CSV-Datei ohne Einverständnis herunter,</li>
         <li>und lade die Datei dann wie gewohnt hoch.</li>
       </ul>
+
+      <button id="csvDownloadNoConsentBtn">CSV herunterladen ohne Einverständnis</button>
+      
     </div>
   </div>
 
@@ -224,6 +226,7 @@ function speichereAntwort() {
       dankeContainer.classList.remove("hidden");
     });
 
+    //CSV Download mit Einverständnis
     document.getElementById("csvDownloadBtn").addEventListener("click", () => {
       const quizData = JSON.parse(localStorage.getItem("uniQuizDaten")) || {};
       const antworten = quizData.quizAntworten || [];
@@ -241,7 +244,7 @@ function speichereAntwort() {
       ];
 
       const csvRow = [
-        "true", //immer true außer consent wird manuell auf false gesetzt,
+        "true", // true consent 
         quizData.agbGelesen || false,
         quizData.agbVerweildauer || 0,
         quizData.agbAkzeptiertAm || "",
@@ -262,6 +265,49 @@ function speichereAntwort() {
       const safeKuerzel = rawKuerzel.replace(/[^a-zA-Z0-9_-]/g, "_"); // ersetzt Sonderzeichen durch _
       link.setAttribute("href", url);
       link.setAttribute("download", `quiz_ergebnis_${safeKuerzel}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+    //CSV Download ohne Einverständnis zur Datenverbeitung
+    document.getElementById("csvDownloadBtnConsentFalse").addEventListener("click", () => {
+      const quizData = JSON.parse(localStorage.getItem("uniQuizDaten")) || {};
+      const antworten = quizData.quizAntworten || [];
+    
+      const csvHeaders = [
+        "consent",
+        "A_R",
+        "A_V(s))",
+        "A_C",
+        "D_R",
+        "D_V(s)",
+        "D_C",
+        ...antworten.map((_, i) => `Frage ${i + 1}`),
+        "Pseudonym"
+      ];
+    
+      const csvRow = [
+        "false", // consent = false
+        quizData.agbGelesen || false,
+        quizData.agbVerweildauer || 0,
+        quizData.agbAkzeptiertAm || "",
+        quizData.datenschutzGelesen || false,
+        quizData.datenschutzVerweildauer || 0,
+        quizData.datenschutzAkzeptiertAm || "",
+        ...antworten.map(a => Array.isArray(a) ? a.join(" | ") : a),
+        quizData.kuerzel || ""
+      ];
+    
+      const csvContent = [csvHeaders.join(","), csvRow.join(",")].join("\n");
+    
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      const rawKuerzel = quizData.kuerzel || "user";
+      const safeKuerzel = rawKuerzel.replace(/[^a-zA-Z0-9_-]/g, "_");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `quiz_ergebnis_${safeKuerzel}_noConsent.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
